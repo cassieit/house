@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace命名空间，为了对sql语句进行隔离，方便管理 ，mapper开发dao方式，使用namespace有特殊作用 -->
+<!-- namespace是当前关联接口的完整路径 -->
+<mapper namespace="com.etc.renting.dao.ImagesDao">
+    <!-- 在mapper.xml文件中配置很多的sql语句，执行每个sql语句时，封装为MappedStatement对象
+    mapper.xml以statement为单位管理sql语句
+     -->
+    <!--通过房子ID查询出房子信息-->
+    <select id="queryByHousesId" resultType="images">
+        select * from t_images where houses_id=#{param1}
+    </select>
+
+    <!--通过房子ID查询出房子信息-->
+    <select id="queryByHousesid" resultType="housesinfo">
+select * from t_houses h right join t_images i on h.houses_id=i.houses_id and i.houses_id=#{param1};
+    </select>
+</mapper>

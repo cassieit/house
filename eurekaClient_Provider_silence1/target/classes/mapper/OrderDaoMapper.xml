@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace命名空间，为了对sql语句进行隔离，方便管理 ，mapper开发dao方式，使用namespace有特殊作用 -->
+<!-- namespace是当前关联接口的完整路径 -->
+<mapper namespace="com.etc.renting.dao.OrderDao">
+    <!-- 在mapper.xml文件中配置很多的sql语句，执行每个sql语句时，封装为MappedStatement对象
+    mapper.xml以statement为单位管理sql语句
+     -->
+    <!--添加订单-->
+    <insert id="addOrder" parameterType="order">
+insert into t_orders(users_id,houses_id,orders_time,orders_state) values(#{users_id},#{houses_id},NOW(),0)
+    </insert>
+    <!--查询全部订单-->
+    <select id="findList" resultType="order">
+        select * from t_orders
+    </select>
+    <!--//根据用户ID查询订单-->
+    <select id="findByUserId" resultType="order">
+        select * from t_orders where users_id=#{param1}  order by orders_time desc
+    </select>
+    <!--//根据订单ID查询订单-->
+    <select id="findById" resultType="order">
+        select * from t_orders where orders_id=#{param1}
+    </select>
+    <!--//修改订单状态-->
+    <update id="updateOrder" parameterType="order">
+        update t_orders set orders_state=#{orders_state} where orders_id=#{orders_id}
+    </update>
+    <!--//根据用户ID查询订单-->
+    <select id="findByUserid" resultType="orderinfo">
+        select orders_id,o.users_id,o.houses_id,orders_time,orders_state,h.houses_name,h.houses_price,houses_style,houses_areas,houses_storey,houses_decorate,houses_image,houses_addr,houses_info,user_name from t_orders o,t_user u,t_houses h where o.houses_id=h.houses_id and o.users_id=u.user_id and o.users_id=#{orders_id}
+    </select>
+    <!--//删除订单-->
+    <delete id="deleteByid" parameterType="order">
+        delete from t_orders where orders_id=#{param1}
+    </delete>
+
+
+    <!--//查询所有订单-->
+    <select id="findAllOrder" resultType="orderinfo">
+        select orders_id,o.users_id,o.houses_id,orders_time,orders_state,h.houses_name,h.houses_price,houses_style,houses_areas,houses_storey,houses_decorate,houses_image,houses_addr,houses_info,user_name from t_orders o,t_user u,t_houses h where o.houses_id=h.houses_id and o.users_id=u.user_id
+    </select>
+</mapper>
