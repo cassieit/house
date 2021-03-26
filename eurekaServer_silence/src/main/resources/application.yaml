@@ -1,0 +1,12 @@
+server:
+  port: 8899   #服务端端口
+
+eureka:
+  instance:
+    hostname: localhost      #主机名称
+  client:
+    #default-zone: http://${eureka.instance.hostname}:${server.port}/eureka/
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
