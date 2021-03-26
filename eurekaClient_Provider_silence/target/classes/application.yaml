@@ -1,0 +1,31 @@
+server:
+  port: 8889
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://192.168.9.58:8899/eureka/   #要连接的注册中心（eureka服务器）地址
+
+
+
+spring:
+  application:
+    name: eureka-client-provider-silence
+  datasource:   #数据源
+    url: jdbc:mysql://127.0.0.1:3306/renting?useUnicode=true&characterEncoding=UTF-8
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: 123456
+    #数据连接池   使用要求必须是数据源也是从配置文件中读取的，否则不生效
+    tomcat:
+      max-wait: 10000
+      max-active: 100
+      max-idle: 50
+      min-idle: 10
+
+#添加mybatis配置
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.etc.renting.entity
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

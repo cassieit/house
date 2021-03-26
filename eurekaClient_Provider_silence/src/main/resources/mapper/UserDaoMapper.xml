@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace命名空间，为了对sql语句进行隔离，方便管理 ，mapper开发dao方式，使用namespace有特殊作用 -->
+<!-- namespace是当前关联接口的完整路径 -->
+<mapper namespace="com.etc.renting.dao.UserDao">
+<!-- 在mapper.xml文件中配置很多的sql语句，执行每个sql语句时，封装为MappedStatement对象
+mapper.xml以statement为单位管理sql语句
+ -->
+    <select id="checkLogin" resultType="user">
+        select user_id,user_name,user_pwd,user_sex,user_tel,user_card,user_state
+        from t_user where user_name=#{param1} and user_pwd=#{param2} and user_state='1'
+    </select>
+
+     <insert id="addUser" parameterType="user">
+         insert into t_user(user_name,user_pwd,user_sex,user_tel,user_card,user_state)
+         values(#{user_name},#{user_pwd},#{user_sex},#{user_tel},#{user_card},'1')
+     </insert>
+
+    <update id="updateUser" parameterType="user">
+        update t_user set user_name=#{user_name},user_pwd=#{user_pwd},user_sex=#{user_sex},user_tel=#{user_tel},user_card=#{user_card} where user_id=#{user_id} and user_state='1'
+    </update>
+
+    <update id="deleteUser" >
+        update t_user set user_state='0' where user_id=#{param1}
+    </update>
+
+    <update id="reUser" >
+        update t_user set user_state='1' where user_id=#{param1}
+    </update>
+
+    <select id="queryAll" resultType="user">
+        select user_id,user_name,user_pwd,user_sex,user_tel,user_card,user_state
+        from t_user
+    </select>
+
+
+    <select id="queryByID" resultType="user">
+        select user_id,user_name,user_pwd,user_sex,user_tel,user_card,user_state
+        from t_user where user_id=#{param1} and user_state='1'
+    </select>
+
+    <select id="queryByName" resultType="user">
+        select user_id,user_name,user_pwd,user_sex,user_tel,user_card,user_state
+        from t_user where user_name=#{param1} and user_state='1'
+    </select>
+
+    <select id="queryByCard" resultType="user">
+        select user_id,user_name,user_pwd,user_sex,user_tel,user_card,user_state
+        from t_user where user_card=#{param1} and user_state='1'
+    </select>
+
+    <select id="queryByTel" resultType="user">
+        select user_id,user_name,user_pwd,user_sex,user_tel,user_card,user_state
+        from t_user where user_tel=#{param1} and user_state='1'
+    </select>
+</mapper>
+
