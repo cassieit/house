@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace命名空间，为了对sql语句进行隔离，方便管理 ，mapper开发dao方式，使用namespace有特殊作用 -->
+<!-- namespace是当前关联接口的完整路径 -->
+<mapper namespace="com.etc.renting.dao.HousesDao">
+<!-- 在mapper.xml文件中配置很多的sql语句，执行每个sql语句时，封装为MappedStatement对象
+mapper.xml以statement为单位管理sql语句
+ -->
+
+     <insert id="addHouses" parameterType="houses">
+         insert into t_houses(admin_id,area_id,type_id,houses_name,houses_price,houses_style,houses_areas,houses_toward,houses_storey,houses_decorate,houses_image,houses_addr,houses_info,houses_time,houses_state) values(#{admin_id},#{area_id},#{type_id},#{houses_name},#{houses_price},#{houses_style},#{houses_areas},#{houses_toward},#{houses_storey},#{houses_decorate},#{houses_image},#{houses_addr},#{houses_info},#{houses_time},#{houses_state})
+     </insert>
+<!--查询全部房子-->
+    <select id="queryAllHouses" resultType="houses">
+        select * from t_houses limit 0,3
+    </select>
+
+<!--通过房子名字模糊查询出房子信息-->
+    <select id="queryByName" resultType="houses">
+        select * from t_houses where houses_name like concat('%',#{houses_name},'%');
+    </select>
+    <!--通过房子ID查询出房子信息-->
+    <select id="queryById" resultType="houses">
+        select * from t_houses where houses_id=#{param1}
+    </select>
+    <!--通查询出价格最低的四条房子信息-->
+    <select id="queryFour" resultType="houses">
+        select * from t_houses  limit 0,3
+    </select>
+    <!--通查询出最新的四条房子信息-->
+    <select id="queryNew" resultType="houses">
+  select * from t_houses order by houses_time desc limit 0,3
+    </select>
+    <!--通查询出价格最低的四条房子信息-->
+    <select id="queryCheap" resultType="houses">
+        select * from t_houses order by houses_price asc limit 0,3
+    </select>
+
+    <select id="queryAllHouses4" resultType="housesAT">
+        select houses_id,h.admin_id,h.area_id,h.type_id,houses_name,houses_price,houses_style,houses_areas,houses_toward,houses_storey,houses_decorate,houses_image,houses_addr,houses_info,houses_time,houses_state,ad.admin_name,ar.area_name,t.type_name from t_houses h,t_admin ad,t_area ar,t_type t where h.admin_id=ad.admin_id and h.area_id=ar.area_id and h.type_id=t.type_id
+    </select>
+
+
+    <select id="queryHousesByID" resultType="housesAT">
+        select houses_id,h.admin_id,h.area_id,h.type_id,houses_name,houses_price,houses_style,houses_areas,houses_toward,houses_storey,houses_decorate,houses_image,houses_addr,houses_info,houses_time,houses_state,ad.admin_name,ar.area_name,t.type_name from t_houses h,t_admin ad,t_area ar,t_type t where h.admin_id=ad.admin_id and h.area_id=ar.area_id and h.type_id=t.type_id and houses_id=#{houses_id} and houses_state='1'
+    </select>
+
+    <select id="queryHousesByPrice" resultType="housesAT">
+        select houses_id,h.admin_id,h.area_id,h.type_id,houses_name,houses_price,houses_style,houses_areas,houses_toward,houses_storey,houses_decorate,houses_image,houses_addr,houses_info,houses_time,houses_state,ad.admin_name,ar.area_name,t.type_name from t_houses h,t_admin ad,t_area ar,t_type t where h.admin_id=ad.admin_id and h.area_id=ar.area_id and h.type_id=t.type_id and houses_state='1' order by houses_price asc limit 0,4
+    </select>
+
+
+    <select id="queryHousesByTime" resultType="housesAT">
+        select houses_id,h.admin_id,h.area_id,h.type_id,houses_name,houses_price,houses_style,houses_areas,houses_toward,houses_storey,houses_decorate,houses_image,houses_addr,houses_info,houses_time,houses_state,ad.admin_name,ar.area_name,t.type_name from t_houses h,t_admin ad,t_area ar,t_type t where h.admin_id=ad.admin_id and h.area_id=ar.area_id and h.type_id=t.type_id and houses_state='1' order by houses_time desc limit 0,4
+    </select>
+
+    <update id="deleteHouses" >
+        update t_houses set houses_state='0' where houses_id=#{param1}
+    </update>
+
+    <update id="reHouses" >
+        update t_houses set houses_state='1' where houses_id=#{param1}
+    </update>
+
+    <update id="updateHouses" parameterType="houses">
+        update t_houses set admin_id=#{admin_id},area_id=#{area_id},type_id=#{type_id},houses_name=#{houses_name},houses_price=#{houses_price},houses_style=#{houses_style},houses_areas=#{houses_areas},houses_toward=#{houses_toward},houses_storey=#{houses_storey},houses_decorate=#{houses_decorate},houses_image=#{houses_image},houses_addr=#{houses_addr},houses_info=#{houses_info},houses_time=#{houses_time},houses_state=#{houses_state} where houses_id=#{houses_id}
+    </update>
+</mapper>
+
