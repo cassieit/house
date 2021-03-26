@@ -1,0 +1,33 @@
+server:
+  port: 8892
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://192.168.9.13:8899/eureka/   #要连接的注册中心（eureka服务器）地址
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: eureka-client-call-feign-silence
+  mvc:
+    view:
+      prefix: /
+      suffix: .jsp
+
+feign:
+  hystrix:
+    enabled: true  #打开feign断路器功能
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 5000
+ribbon:
+  ReadTimeout: 5000
+  ConnectTimeout: 5000
+
